@@ -1,0 +1,25 @@
+name = "secure-identity"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Only serve via the zone routes, which sit behind Cloudflare Access.
+workers_dev = false
+preview_urls = false
+
+routes = [
+  { pattern = "tunnel.originserver.uk/secure", zone_name = "originserver.uk" },
+  { pattern = "tunnel.originserver.uk/secure/*", zone_name = "originserver.uk" }
+]
+
+[vars]
+# Zero Trust team domain, e.g. "yourteam.cloudflareaccess.com"
+TEAM_DOMAIN = "cool-wood-c1bc.cloudflareaccess.com"
+# Application Audience (AUD) tag of the Access application
+POLICY_AUD = "0d14bfba4165e275314393175a99dc226029314a3337f494d60cc6bc3a0e0339"
+
+[[r2_buckets]]
+binding = "FLAGS"
+bucket_name = "flags"
+
+[observability]
+enabled = true
